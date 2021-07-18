@@ -12,7 +12,9 @@ namespace WeatherLab
         {
             var measurements = new WeatherSqliteContext(dbfile).Weather;
 
-            var total_2020_precipitation = ?? TODO ??
+            var total_2020_precipitation = (from  data in measurements
+            where data.year == 2020
+            select data.precipitation).Sum();
             Console.WriteLine($"Total precipitation in 2020: {total_2020_precipitation} mm\n");
 
             //
@@ -21,6 +23,13 @@ namespace WeatherLab
             //
 
             // ?? TODO ??
+var mean_temp = from meanYaer in measurements.AsEnumerable()
+group meanYaer by meanYaer.year into resGroup orderby resGroup.Key
+select new{
+    key = resGroup.key,
+    hdd = resGroup.Where(r => r.meantemp < 18) .count(),
+    cdd = resGroup.Where(r => r.meantemp >=18).count(),
+};
 
             //
             // Cooling degree days have a mean temp of >=18C
@@ -43,11 +52,35 @@ namespace WeatherLab
             Console.WriteLine("Year\tHDD\tCDD");
 
             // ?? TODO ??
-
+            foreach ( var meanYear in mean_temp)
+            {
+                Console.WriteLine($"{meanYear.key}\t{meanYear.hdd}\t{meanyear.cdd}");
+            }
+            var variable = from temp in measurements
+            orderby (temp.maxtemp-temp.mintemp) descending
+            select new
+            {
+                Date = $"{temp.year}-{temp.month:d2}-{temp.day:d2}",
+                delta = (temp.maxtemp -temp.mintemp), 
+            };
             Console.WriteLine("\nTop 5 Most Variable Days");
             Console.WriteLine("YYYY-MM-DD\tDelta");
 
             // ?? TODO ??
+            int h =0;
+            foreach (var x in variable)
+            {
+                if (h < 5)
+                {
+                    Console.WriteLine($"{x.date}\t{x.delta}");
+                    h++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            
         }
     }
 }
