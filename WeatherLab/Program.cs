@@ -26,9 +26,9 @@ namespace WeatherLab
 var mean_temp = from meanYaer in measurements.AsEnumerable()
 group meanYaer by meanYaer.year into resGroup orderby resGroup.Key
 select new{
-    key = resGroup.key,
-    hdd = resGroup.Where(r => r.meantemp < 18) .count(),
-    cdd = resGroup.Where(r => r.meantemp >=18).count(),
+    key = resGroup.Key,
+    hdd = resGroup.Where(r => r.meantemp < 18).Count(),
+    cdd = resGroup.Where(r => r.meantemp >=18).Count(),
 };
 
             //
@@ -54,7 +54,7 @@ select new{
             // ?? TODO ??
             foreach ( var meanYear in mean_temp)
             {
-                Console.WriteLine($"{meanYear.key}\t{meanYear.hdd}\t{meanyear.cdd}");
+                Console.WriteLine($"{meanYear.key}\t{meanYear.hdd}\t{meanYear.cdd}");
             }
             var variable = from temp in measurements
             orderby (temp.maxtemp-temp.mintemp) descending
@@ -72,7 +72,7 @@ select new{
             {
                 if (h < 5)
                 {
-                    Console.WriteLine($"{x.date}\t{x.delta}");
+                    Console.WriteLine($"{x.Date}\t{x.delta}");
                     h++;
                 }
                 else
